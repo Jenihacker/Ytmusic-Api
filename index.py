@@ -65,14 +65,14 @@ class Search(Resource):
 
 class SearchSuggestion(Resource):
     def __init__(self):
-        self.client = YTMusic()
+        self.client = InnerTube("IOS_MUSIC")
 
     def get(self, ip):
-        data = self.client.get_search_suggestions(ip)
+        data = self.client.music_get_search_suggestions(ip)
         suggestions = []
-        #for i in range(len(data["contents"][0]["searchSuggestionsSectionRenderer"]["contents"])):
-        #    suggestions.append(data["contents"][0]["searchSuggestionsSectionRenderer"]["contents"][i]["searchSuggestionRenderer"]["navigationEndpoint"]["searchEndpoint"]["query"])
-        return {"suggestions": data}
+        for i in range(len(data["contents"][0]["searchSuggestionsSectionRenderer"]["contents"])):
+            suggestions.append(data["contents"][0]["searchSuggestionsSectionRenderer"]["contents"][i]["searchSuggestionRenderer"]["navigationEndpoint"]["searchEndpoint"]["query"])
+        return {"suggestions": suggestions}
     
 class NextSongResource(Resource):
     def get(self, vid):
