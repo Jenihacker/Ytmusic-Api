@@ -10,6 +10,19 @@ api = Api(app)
 # Client for YouTube on iOS
 client = InnerTube("IOS")
 
+ytmusic = YTMusic()
+
+cat = {
+    "chill" : "ggMPOg1uX1JOQWZFeDByc2Jm",
+    "commute" : "ggMPOg1uX044Z2o5WERLckpU",
+    "energy booster" : "ggMPOg1uX2lRZUZiMnNrQnJW",
+    "feel good" : "ggMPOg1uXzZQbDB5eThLRTQ3",
+    "focus" : "ggMPOg1uX0NvNGNhWThMYWRh",
+    "party" : "ggMPOg1uX0pmQ0s2V0JRclZs",
+    "romance" : "ggMPOg1uX0FzQ2FhZWtUY211",
+    "sleep" : "ggMPOg1uX1MxaFQ3Z0JMZkN4",
+    "workout" : "ggMPOg1uX09LWkhnTjRGRUJh", 
+}
 
 class Search(Resource):
     def get(self):
@@ -82,10 +95,40 @@ class NextSongResource(Resource):
                 li.append({"url":i["url"],"mimeType":i["mimeType"].split(";")[0]}) 
         streamobj.append({"id":1,"title":title,"author":author,"thumbnail":thumbnail,"streamlinks":li,"viewcount":viewcount,"videoid":videoid})
         return jsonify(streamobj)
+    
+class Playlists(Resource):
+    def get(self,query):
+        return ytmusic.get_mood_playlists(cat[query])
+
+class PlaylistSong(Resource):
+    def get(self,pid):
+        return ytmusic.get_playlist(pid)
+    
+class SongDetails(Resource):
+    def get(self,vid):
+        streamobj = []
+        data = InnerTube("ANDROID_MUSIC").player(vid)
+        if "streamingData" in data:
+            streams = data["streamingData"]["adaptiveFormats"]
+            title = data["videoDetails"]["title"]
+            author = data["videoDetails"]["author"]
+            viewcount = data["videoDetails"]["viewCount"]
+            videoid = data["videoDetails"]["videoId"]
+            data = InnerTube("IOS").player(vid)
+            thumbnail = data["videoDetails"]["thumbnail"]["thumbnails"][2]["url"] if len(data["videoDetails"]["thumbnail"]["thumbnails"])>2 else data["videoDetails"]["thumbnail"]["thumbnails"][1]["url"]
+            li=[]
+            for i in streams:
+                if i["itag"]==251:
+                    li.append({"url":i["url"],"mimeType":i["mimeType"].split(";")[0]}) 
+            streamobj.append({"id":1,"title":title,"author":author,"thumbnail":thumbnail,"streamlinks":li,"viewcount":viewcount,"videoid":videoid})
+        return jsonify(streamobj)
 
 api.add_resource(Search, '/')
 api.add_resource(SearchSuggestion, "/search_suggestion/<string:ip>")
 api.add_resource(NextSongResource, '/next/<string:vid>')
+api.add_resource(Playlists, '/playlist/<string:query>')
+api.add_resource(PlaylistSong, '/playlist/song/<string:pid>')
+api.add_resource(SongDetails, '/songdetails/<string:vid>')
 
 if __name__ == '__main__':
     app.run(debug=True)
