@@ -67,8 +67,8 @@ class SearchSuggestion(Resource):
     def __init__(self):
         self.client = InnerTube("IOS_MUSIC")
 
-    def get(self, ip):
-        data = self.client.music_get_search_suggestions(ip)
+    def get(self):
+        data = self.client.music_get_search_suggestions(request.args.get("query"))
         suggestions = []
         for i in range(len(data["contents"][0]["searchSuggestionsSectionRenderer"]["contents"])):
             suggestions.append(data["contents"][0]["searchSuggestionsSectionRenderer"]["contents"][i]["searchSuggestionRenderer"]["navigationEndpoint"]["searchEndpoint"]["query"])
@@ -124,7 +124,7 @@ class SongDetails(Resource):
         return jsonify(streamobj)
 
 api.add_resource(Search, '/')
-api.add_resource(SearchSuggestion, "/search_suggestion/<string:ip>")
+api.add_resource(SearchSuggestion, "/search_suggestion")
 api.add_resource(NextSongResource, '/next/<string:vid>')
 api.add_resource(Playlists, '/playlist')
 api.add_resource(PlaylistSong, '/playlist/song/<string:pid>')
