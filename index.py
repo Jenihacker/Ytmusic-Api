@@ -126,8 +126,8 @@ class SongDetails(Resource):
 api.add_resource(Search, '/')
 api.add_resource(SearchSuggestion, "/search_suggestion/<string:ip>")
 api.add_resource(NextSongResource, '/next/<string:vid>')
-api.add_resource(Playlists, '/playlist/<string:query>')
-api.add_resource(PlaylistSong, '/playlist/song')
+api.add_resource(Playlists, '/playlist')
+api.add_resource(PlaylistSong, '/playlist/song/<string:pid>')
 api.add_resource(SongDetails, '/songdetails/<string:vid>')
 
 if __name__ == '__main__':
