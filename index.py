@@ -97,8 +97,8 @@ class NextSongResource(Resource):
         return jsonify(streamobj)
     
 class Playlists(Resource):
-    def get(self,query):
-        return ytmusic.get_mood_playlists(cat[query])
+    def get(self):
+        return ytmusic.get_mood_playlists(cat[request.args.get("cat")])
 
 class PlaylistSong(Resource):
     def get(self,pid):
@@ -127,7 +127,7 @@ api.add_resource(Search, '/')
 api.add_resource(SearchSuggestion, "/search_suggestion/<string:ip>")
 api.add_resource(NextSongResource, '/next/<string:vid>')
 api.add_resource(Playlists, '/playlist/<string:query>')
-api.add_resource(PlaylistSong, '/playlist/song/<string:pid>')
+api.add_resource(PlaylistSong, '/playlist/song')
 api.add_resource(SongDetails, '/songdetails/<string:vid>')
 
 if __name__ == '__main__':
