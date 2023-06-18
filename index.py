@@ -87,7 +87,7 @@ class NextSongResource(Resource):
         title = data["videoDetails"]["title"]
         author = data["videoDetails"]["author"]
         viewcount = data["videoDetails"]["viewCount"]
-        thumbnail = data["videoDetails"]["thumbnail"]["thumbnails"][2]["url"]
+        thumbnail = data["videoDetails"]["thumbnail"]["thumbnails"][len(data["videoDetails"]["thumbnail"]["thumbnails"])-1]["url"]
         videoid = data["videoDetails"]["videoId"]
         li=[]
         for i in streams:
