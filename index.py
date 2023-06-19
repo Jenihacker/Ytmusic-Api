@@ -23,7 +23,7 @@ cat = {
     "sleep" : "ggMPOg1uX1MxaFQ3Z0JMZkN4",
     "workout" : "ggMPOg1uX09LWkhnTjRGRUJh", 
 }
-
+'''
 class Search(Resource):
     def get(self):
         client = InnerTube("IOS_MUSIC")
@@ -62,6 +62,17 @@ class Search(Resource):
                 streamobj.append({"id":key,"title":title,"author":author,"thumbnail":thumbnail,"streamlinks":li,"viewcount":viewcount,"videoid":videoid})
                 key+=1  
         return jsonify(streamobj)
+'''
+class Search(Resource):
+    def get(self):
+        if(not request.args.get("search")):
+            return {"error": "No search query provided"}
+        search_results = []
+        for i in ytmusic.search(query=id,filter="videos"):
+            search_results.append(i)
+        for i in ytmusic.search(query=id,filter="songs"):
+            search_results.append(i)
+        return search_results
 
 class SearchSuggestion(Resource):
     def __init__(self):
