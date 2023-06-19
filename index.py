@@ -68,9 +68,9 @@ class Search(Resource):
         if(not request.args.get("search")):
             return {"error": "No search query provided"}
         search_results = []
-        for i in ytmusic.search(query=id,filter="videos"):
+        for i in ytmusic.search(query=request.args.get("search"),filter="videos"):
             search_results.append(i)
-        for i in ytmusic.search(query=id,filter="songs"):
+        for i in ytmusic.search(query=request.args.get("search"),filter="songs"):
             search_results.append(i)
         return search_results
 
