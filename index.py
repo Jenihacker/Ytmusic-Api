@@ -69,9 +69,9 @@ class Search(Resource):
             return {"error": "No search query provided"}
         search_results = []
         for i in ytmusic.search(query=request.args.get("search"),filter="videos"):
-            search_results.append(i)
+            search_results.append({"title": i["title"],"videoId": i["videoId"],"duration": i["duration"],"artists":i["artists"][0]["name"],"thumbnails":i["thumbnails"][0]["url"]})
         for i in ytmusic.search(query=request.args.get("search"),filter="songs"):
-            search_results.append(i)
+            search_results.append({"title": i["title"],"videoId": i["videoId"],"duration": i["duration"],"artists":i["artists"][0]["name"],"thumbnails":i["thumbnails"][1]["url"]})
         return search_results
 
 class SearchSuggestion(Resource):
