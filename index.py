@@ -91,6 +91,10 @@ class NextSongResource(Resource):
         data = client.next(vid)
         i = randint(0,len(data["contents"]["singleColumnMusicWatchNextResultsRenderer"]["playlist"]["playlistPanelRenderer"]["contents"])-1)
         videoid = data["contents"]["singleColumnMusicWatchNextResultsRenderer"]["playlist"]["playlistPanelRenderer"]["contents"][i]["playlistPanelVideoRenderer"]["videoId"]
+        if vid == videoid:
+            data = client.next(vid)
+            i = randint(0,len(data["contents"]["singleColumnMusicWatchNextResultsRenderer"]["playlist"]["playlistPanelRenderer"]["contents"])-1)
+            videoid = data["contents"]["singleColumnMusicWatchNextResultsRenderer"]["playlist"]["playlistPanelRenderer"]["contents"][i]["playlistPanelVideoRenderer"]["videoId"]
         streamobj = []
         client = InnerTube("IOS")
         data = client.player(videoid)
@@ -119,8 +123,6 @@ class SongDetails(Resource):
     def get(self,vid):
         streamobj = []
         data = InnerTube("ANDROID_MUSIC").player(vid)
-        if vid == data["videoDetails"]["videoId"]:
-            data = InnerTube("ANDROID_MUSIC").player(vid)
         if "streamingData" in data:
             streams = data["streamingData"]["adaptiveFormats"]
             title = data["videoDetails"]["title"]
