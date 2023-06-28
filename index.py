@@ -119,6 +119,8 @@ class SongDetails(Resource):
     def get(self,vid):
         streamobj = []
         data = InnerTube("ANDROID_MUSIC").player(vid)
+        if vid == data["videoDetails"]["videoId"]:
+            data = InnerTube("ANDROID_MUSIC").player(vid)
         if "streamingData" in data:
             streams = data["streamingData"]["adaptiveFormats"]
             title = data["videoDetails"]["title"]
