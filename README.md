@@ -1,6 +1,6 @@
 # Ytmusic-Api
-Clone the project from github.
-After that run
-```pip install -r requirements.txt```
-At last run
+Clone the project from github.__
+After that run__
+```pip install -r requirements.txt```__
+At last run__
 ```python index.py```
