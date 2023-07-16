@@ -81,6 +81,8 @@ class SearchSuggestion(Resource):
         self.client = InnerTube("IOS_MUSIC")
 
     def get(self):
+        if len(request.args.get("query"))==0:
+            return {"suggestions": [""]}
         data = self.client.music_get_search_suggestions(request.args.get("query"))
         suggestions = []
         for i in range(len(data["contents"][0]["searchSuggestionsSectionRenderer"]["contents"])):
