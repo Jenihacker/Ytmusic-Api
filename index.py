@@ -100,8 +100,7 @@ class NextSongResource(Resource):
             i = randint(0,len(data["contents"]["singleColumnMusicWatchNextResultsRenderer"]["playlist"]["playlistPanelRenderer"]["contents"])-1)
             videoid = data["contents"]["singleColumnMusicWatchNextResultsRenderer"]["playlist"]["playlistPanelRenderer"]["contents"][i]["playlistPanelVideoRenderer"]["videoId"]
         streamobj = []
-        client = InnerTube("IOS")
-        data = client.player(videoid)
+        data = InnerTube("ANDROID_MUSIC").player(videoid)
         streams = data["streamingData"]["adaptiveFormats"]
         title = data["videoDetails"]["title"]
         author = data["videoDetails"]["author"]
@@ -133,8 +132,6 @@ class SongDetails(Resource):
             author = data["videoDetails"]["author"]
             viewcount = data["videoDetails"]["viewCount"]
             videoid = data["videoDetails"]["videoId"]
-            #data = InnerTube("IOS").player(vid)
-            #thumbnail = data["videoDetails"]["thumbnail"]["thumbnails"][2]["url"] if len(data["videoDetails"]["thumbnail"]["thumbnails"])>2 else data["videoDetails"]["thumbnail"]["thumbnails"][1]["url"]
             thumbnail = data["videoDetails"]["thumbnail"]["thumbnails"][len(data["videoDetails"]["thumbnail"]["thumbnails"])-1]["url"]
             li=[]
             for i in streams:
