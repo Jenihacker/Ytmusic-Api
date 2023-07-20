@@ -133,8 +133,9 @@ class SongDetails(Resource):
             author = data["videoDetails"]["author"]
             viewcount = data["videoDetails"]["viewCount"]
             videoid = data["videoDetails"]["videoId"]
-            data = InnerTube("IOS").player(vid)
-            thumbnail = data["videoDetails"]["thumbnail"]["thumbnails"][2]["url"] if len(data["videoDetails"]["thumbnail"]["thumbnails"])>2 else data["videoDetails"]["thumbnail"]["thumbnails"][1]["url"]
+            #data = InnerTube("IOS").player(vid)
+            #thumbnail = data["videoDetails"]["thumbnail"]["thumbnails"][2]["url"] if len(data["videoDetails"]["thumbnail"]["thumbnails"])>2 else data["videoDetails"]["thumbnail"]["thumbnails"][1]["url"]
+            thumbnail = data["videoDetails"]["thumbnail"]["thumbnails"][len(data["videoDetails"]["thumbnail"]["thumbnails"])-1]["url"]
             li=[]
             for i in streams:
                 if i["itag"]==251:
