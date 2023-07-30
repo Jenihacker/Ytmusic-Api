@@ -93,7 +93,8 @@ class NextSongResource(Resource):
     def get(self, vid):
         client = InnerTube("WEB_MUSIC")
         data = client.next(vid)
-        i = randint(0,len(data["contents"]["singleColumnMusicWatchNextResultsRenderer"]["playlist"]["playlistPanelRenderer"]["contents"])-1)
+        i = randint(1,len(data["contents"]["singleColumnMusicWatchNextResultsRenderer"]["playlist"]["playlistPanelRenderer"]["contents"])-1)
+        print(i)
         videoid = data["contents"]["singleColumnMusicWatchNextResultsRenderer"]["playlist"]["playlistPanelRenderer"]["contents"][i]["playlistPanelVideoRenderer"]["videoId"]
         if vid == videoid:
             data = client.next(vid)
@@ -109,7 +110,7 @@ class NextSongResource(Resource):
         videoid = data["videoDetails"]["videoId"]
         li=[]
         for i in streams:
-            if i["itag"]==139 or i["itag"]==140 or i["itag"]==251:
+            if i["itag"]==251:
                 li.append({"url":i["url"],"mimeType":i["mimeType"].split(";")[0]}) 
         streamobj.append({"id":1,"title":title,"author":author,"thumbnail":thumbnail,"streamlinks":li,"viewcount":viewcount,"videoid":videoid})
         return jsonify(streamobj)
