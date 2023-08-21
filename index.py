@@ -152,6 +152,14 @@ class PlayerPlaylist(Resource):
         for i in range(1,len(p)):
             li.append(p[i]['videoId'])
         return jsonify(li)
+    
+class Lyrics(Resource):
+    def get(self,vid):
+        p = ytmusic.get_watch_playlist(vid)
+        try:
+            return ytmusic.get_lyrics(p['lyrics'])
+        except:
+            return {"lyrics":"No lyrics found"}
 
 api.add_resource(Search, '/')
 api.add_resource(SearchSuggestion, "/search_suggestion")
@@ -160,6 +168,7 @@ api.add_resource(Playlists, '/playlist')
 api.add_resource(PlaylistSong, '/playlist/song/<string:pid>')
 api.add_resource(SongDetails, '/songdetails/<string:vid>')
 api.add_resource(PlayerPlaylist, '/playerplaylist/<string:vid>')
+api.add_resource(Lyrics, '/lyrics/<string:vid>')
 
 if __name__ == '__main__':
     app.run(debug=True)
