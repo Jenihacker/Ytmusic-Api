@@ -144,6 +144,14 @@ class SongDetails(Resource):
                     li.append({"url":i["url"],"mimeType":i["mimeType"].split(";")[0]}) 
             streamobj.append({"id":1,"title":title,"author":author,"thumbnail":thumbnail,"streamlinks":li,"viewcount":viewcount,"videoid":videoid})
         return jsonify(streamobj)
+    
+class PlayerPlaylist(Resource):
+    def get(self,vid):
+        p = ytmusic.get_watch_playlist(vid)['tracks']
+        li = []
+        for i in range(1,len(p)):
+            li.append(p[i]['videoId'])
+        return jsonify(li)
 
 api.add_resource(Search, '/')
 api.add_resource(SearchSuggestion, "/search_suggestion")
@@ -151,6 +159,7 @@ api.add_resource(NextSongResource, '/next/<string:vid>')
 api.add_resource(Playlists, '/playlist')
 api.add_resource(PlaylistSong, '/playlist/song/<string:pid>')
 api.add_resource(SongDetails, '/songdetails/<string:vid>')
+api.add_resource(PlayerPlaylist, '/playerplaylist/<string:vid>')
 
 if __name__ == '__main__':
     app.run(debug=True)
