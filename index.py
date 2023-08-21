@@ -70,11 +70,15 @@ class Search(Resource):
         if(not request.args.get("search")):
             return {"error": "No search query provided"}
         search_results = []
+        results = {}
         for i in ytmusic.search(query=request.args.get("search"),filter="songs"):
             search_results.append({"title": i["title"],"videoId": i["videoId"],"duration": i["duration"],"artists":i["artists"][0]["name"],"thumbnails":i["thumbnails"][len(i["thumbnails"])-1]["url"]})
+        results['songs'] = search_results
+        search_results = []
         for i in ytmusic.search(query=request.args.get("search"),filter="videos"):
             search_results.append({"title": i["title"],"videoId": i["videoId"],"duration": i["duration"],"artists":i["artists"][0]["name"],"thumbnails":i["thumbnails"][0]["url"]})
-        return search_results
+        results['videos'] = search_results
+        return results
 
 class SearchSuggestion(Resource):
     def __init__(self):
