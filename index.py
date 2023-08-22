@@ -159,7 +159,7 @@ class Lyrics(Resource):
         try:
             return ytmusic.get_lyrics(p['lyrics'])
         except:
-            return {"lyrics":"No lyrics found"}
+            return {"lyrics":"No lyrics found","source":""}
 
 api.add_resource(Search, '/')
 api.add_resource(SearchSuggestion, "/search_suggestion")
