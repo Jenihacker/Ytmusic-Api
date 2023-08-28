@@ -129,7 +129,7 @@ class PlaylistSong(Resource):
     
 class SongDetails(Resource):
     def get(self,vid):
-        streamobj = []
+        streamobj = {}
         data = InnerTube("ANDROID_MUSIC").player(vid)
         if "streamingData" in data:
             streams = data["streamingData"]["adaptiveFormats"]
@@ -142,8 +142,8 @@ class SongDetails(Resource):
             for i in streams:
                 if i["itag"]==251:
                     li.append({"url":i["url"],"mimeType":i["mimeType"].split(";")[0]}) 
-            streamobj.append({"id":1,"title":title,"author":author,"thumbnail":thumbnail,"streamlinks":li,"viewcount":viewcount,"videoid":videoid})
-        return jsonify(streamobj)
+            streamobj = {"id":1,"title":title,"author":author,"thumbnail":thumbnail,"streamlinks":li,"viewcount":viewcount,"videoid":videoid}
+        return streamobj
     
 class PlayerPlaylist(Resource):
     def get(self,vid):
