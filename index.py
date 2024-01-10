@@ -121,6 +121,7 @@ class NextSongResource(Resource):
     
 class Playlists(Resource):
     def get(self):
+        return ytmusic.get_mood_categories()
         return ytmusic.get_mood_playlists(cat[request.args.get("cat")])
 
 class PlaylistSong(Resource):
